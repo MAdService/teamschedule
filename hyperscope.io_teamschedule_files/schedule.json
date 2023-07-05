@@ -1,0 +1,2 @@
+var data = '[["2023-06-24T16:15:00","Free Practice 2"],["2023-06-24T17:15:30","Free Practice 3"],["2023-06-25T18:25:00","Free Practice 4"], ["2023-06-25T19:55:00","Free Practice 5"]]';
+data = JSON.parse(data);
