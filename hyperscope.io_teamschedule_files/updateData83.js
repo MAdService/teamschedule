@@ -6,7 +6,7 @@ function refreshTime() {
   const nextEventsList = document.getElementById("nextEventsList");
 
   var data;
-  readTextFile("schedule50.json", function(text){
+  readTextFile("schedule83.json", function(text){
 
     const dateString = new Date().toLocaleDateString();
     const formattedDate = dateString.replace(", ", " - ");
