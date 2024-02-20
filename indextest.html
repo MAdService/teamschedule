@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Event Schedule</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+    .event {
+        margin-bottom: 20px;
+    }
+</style>
+</head>
+<body>
+
+<h1>Event Schedule</h1>
+
+<div id="schedule"></div>
+<div id="countdown"></div>
+
+<script>
+    // Fetch JSON data
+    fetch('schedule.json')
+        .then(response => response.json())
+        .then(data => {
+            displaySchedule(data);
+            showCountdown(data);
+        })
+        .catch(error => console.error('Error fetching schedule:', error));
+
+    function displaySchedule(schedule) {
+        const scheduleElement = document.getElementById('schedule');
+        schedule.forEach(event => {
+            const eventElement = document.createElement('div');
+            eventElement.classList.add('event');
+            eventElement.innerHTML = `<strong>${event.name}</strong> - ${event.date} ${event.time}`;
+            scheduleElement.appendChild(eventElement);
+        });
+    }
+
+    function showCountdown(schedule) {
+        const now = new Date();
+        const upcomingEvents = schedule.filter(event => new Date(event.date + ' ' + event.time) > now);
+        if (upcomingEvents.length > 0) {
+            const nextEventTime = new Date(upcomingEvents[0].date + ' ' + upcomingEvents[0].time);
+            const countdownElement = document.getElementById('countdown');
+            setInterval(() => {
+                const currentTime = new Date();
+                const timeDifference = nextEventTime - currentTime;
+                const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+                countdownElement.innerHTML = `Time until next event: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+            }, 1000);
+        } else {
+            document.getElementById('countdown').innerHTML = 'No upcoming events';
+        }
+    }
+</script>
+
+</body>
+</html>
